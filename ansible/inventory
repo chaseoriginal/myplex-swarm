@@ -1,0 +1,6 @@
+[myplex]
+ore-dock-110-1 ansible_host=10.77.110.10 ansible_user=ladmin
+
+[myplex:vars]
+stack_dir=/data/compose/myplex-swarm
+stack_name=myplex-swarm

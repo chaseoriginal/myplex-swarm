@@ -1,0 +1,109 @@
+---
+# myplex-swarm — Plex Media Server on Swarm 110-1
+#
+# Stack name: myplex-swarm
+# Service name: plex
+# Image: lscr.io/linuxserver/plex:latest
+# Deployed via: docker stack deploy (not Portainer)
+#
+# Named volumes:
+#   myplex_swarm_config  → /config  (Plex config and metadata)
+#   myplex_swarm_transcode → /transcode
+#
+# Media mounts (bind mounts — preserved as-is):
+#   /media/Multimedia     → /media   (main library)
+#   /media/Multimedia/Music → /music  (music library)
+#
+# Deploy:
+#   docker stack deploy -c docker-compose.yml myplex-swarm
+#
+# IMPORTANT: On first deploy, Portainer will NOT show this stack.
+# After the compose file is synced to the swarm leader, update Portainer via API
+# to claim this as a managed stack (Editor/Upload method).
+
+x-base: &base
+  restart: unless-stopped
+  networks:
+    - myplex-swarm_public
+
+services:
+  plex:
+    <<: *base
+    image: lscr.io/linuxserver/plex:latest
+    container_name: ${CNAME}
+    hostname: https://${IP}
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+      - VERSION=docker
+      - PLEX_CLAIM=${PLEX_CLAIM:-}
+    volumes:
+      - myplex_swarm_config:/config
+      - myplex_swarm_transcode:/transcode
+      - /media/Multimedia:/media
+      - /media/Multimedia/Music:/music
+    ports:
+      - target: 32400
+        published: 32400
+        protocol: tcp
+        mode: host
+      - target: 1900
+        published: 1900
+        protocol: udp
+        mode: host
+      - target: 8324
+        published: 8324
+        protocol: tcp
+        mode: host
+      - target: 32469
+        published: 32469
+        protocol: tcp
+        mode: host
+      - target: 32410
+        published: 32410
+        protocol: udp
+        mode: host
+      - target: 32411
+        published: 32411
+        protocol: udp
+        mode: host
+      - target: 32412
+        published: 32412
+        protocol: udp
+        mode: host
+      - target: 32413
+        published: 32413
+        protocol: udp
+        mode: host
+      - target: 32414
+        published: 32414
+        protocol: udp
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.deployment.target.myplex == true
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: continue
+        monitor: 60s
+        max_failure_ratio: 0.3
+
+volumes:
+  myplex_swarm_config:
+    name: myplex_swarm_config
+  myplex_swarm_transcode:
+    name: myplex_swarm_transcode
+
+networks:
+  myplex-swarm_public:
+    external: true
+    name: myplex-swarm_public
