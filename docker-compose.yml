@@ -1,21 +1,8 @@
 ---
 # myplex-swarm — Plex Media Server on Swarm 110-1
-#
-# Stack name: myplex-swarm
-# Service name: plex
-# Image: lscr.io/linuxserver/plex:latest
-# Deployed via: docker stack deploy (not Portainer)
-#
-# Named volumes:
-#   myplex_swarm_config  → /config  (Plex config and metadata)
-#   myplex_swarm_transcode → /transcode
-#
-# Media mounts (bind mounts — preserved as-is):
-#   /media/Multimedia     → /media   (main library)
-#   /media/Multimedia/Music → /music  (music library)
-#
-# Deploy:
-#   docker stack deploy -c docker-compose.yml myplex-swarm
+# Stack: myplex-swarm | Service: plex | Image: lscr.io/linuxserver/plex:latest
+# Named volumes: myplex_swarm_config, myplex_swarm_transcode
+# Media mounts: /media/Multimedia, /media/Multimedia/Music
 #
 x-base: &base
   restart: unless-stopped
