@@ -17,14 +17,10 @@
 # Deploy:
 #   docker stack deploy -c docker-compose.yml myplex-swarm
 #
-# IMPORTANT: On first deploy, Portainer will NOT show this stack.
-# After the compose file is synced to the swarm leader, update Portainer via API
-# to claim this as a managed stack (Editor/Upload method).
-
 x-base: &base
   restart: unless-stopped
   networks:
-    - myplex-swarm_public
+    - myplex-swarm_default
 
 services:
   plex:
@@ -104,6 +100,6 @@ volumes:
     name: myplex_swarm_transcode
 
 networks:
-  myplex-swarm_public:
+  myplex-swarm_default:
     external: true
-    name: myplex-swarm_public
+    name: myplex-swarm_default
