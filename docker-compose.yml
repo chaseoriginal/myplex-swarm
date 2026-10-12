@@ -1,9 +1,6 @@
 ---
 # myplex-swarm — Plex Media Server on Swarm 110-1
-# Stack: myplex-swarm | Service: plex | Image: lscr.io/linuxserver/plex:latest
-# Named volumes: myplex_swarm_config, myplex_swarm_transcode
-# Media mounts: /media/Multimedia, /media/Multimedia/Music
-#
+
 x-base: &base
   restart: unless-stopped
   networks:
