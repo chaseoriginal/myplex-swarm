@@ -1,6 +1,3 @@
----
-# myplex-swarm — Plex Media Server on Swarm 110-1
-
 x-base: &base
   restart: unless-stopped
   networks:
