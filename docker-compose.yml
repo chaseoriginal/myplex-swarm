@@ -44,13 +44,13 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-      resources:
-        limits:
-          cpus: "1"
-          memory: 1G
-        reservations:
-          cpus: "0.5"
-          memory: 512M
+      # No CPU/memory limits or reservations — deliberately matches the other
+      # Plex servers (lplex has no resources block at all). The previous
+      # `limits: cpus 1 / memory 1G` capped PMS at one core and 1 GiB, which
+      # is what forced Plex's `DatabaseCacheSize` to stay at the 40 MB default:
+      # a 1024 MB DB cache inside a 1 GiB cgroup is an OOM kill (exit 137 /
+      # unhealthy container). Plex peaked at ~665 MB RSS during a scan on a
+      # 1-core limit and was visibly CPU-throttled at 100%.
       placement:
         constraints:
           - node.hostname==ore-dock-110-2
