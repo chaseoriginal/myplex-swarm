@@ -40,7 +40,49 @@ services:
       - myplex_swarm_transcode:/transcode
       - /media/Multimedia:/media:ro
       - /media/Multimedia/Music:/music:ro
-    network_mode: host
+    # Ports are published in `host` mode (like triplee-plex-swarm) rather than
+    # using `network_mode: host`. Portainer's swarm deploy IGNORES
+    # `network_mode: host` — compose v3 swarm semantics attach the service to
+    # the stack's overlay network instead, which leaves PMS listening only on
+    # the container IP and unreachable on 10.77.110.20:32400. Publishing with
+    # `mode: host` binds the port on the node the task runs on (110-2).
+    ports:
+      - target: 32400
+        published: 32400
+        protocol: tcp
+        mode: host
+      - target: 1900
+        published: 1900
+        protocol: udp
+        mode: host
+      - target: 8324
+        published: 8324
+        protocol: tcp
+        mode: host
+      - target: 32469
+        published: 32469
+        protocol: tcp
+        mode: host
+      - target: 32410
+        published: 32410
+        protocol: udp
+        mode: host
+      - target: 32411
+        published: 32411
+        protocol: udp
+        mode: host
+      - target: 32412
+        published: 32412
+        protocol: udp
+        mode: host
+      - target: 32413
+        published: 32413
+        protocol: udp
+        mode: host
+      - target: 32414
+        published: 32414
+        protocol: udp
+        mode: host
     deploy:
       mode: replicated
       replicas: 1
