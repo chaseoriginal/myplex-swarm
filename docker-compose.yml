@@ -28,7 +28,7 @@
 # exist on this swarm, and NPM proxies straight to the host port.
 services:
   plex:
-    image: lscr.io/linuxserver/plex:latest@sha256:9a1325bf0b34a50993a04be0bdcc7fab841d2a78161bd11b4db4ff8478a7ac2a@sha256:9a1325bf0b34a50993a04be0bdcc7fab841d2a78161bd11b4db4ff8478a7ac2a@sha256:9a1325bf0b34a50993a04be0bdcc7fab841d2a78161bd11b4db4ff8478a7ac2a@sha256:9a1325bf0b34a50993a04be0bdcc7fab841d2a78161bd11b4db4ff8478a7ac2a@sha256:9a1325bf0b34a50993a04be0bdcc7fab841d2a78161bd11b4db4ff8478a7ac2a@sha256:9a1325bf0b34a50993a04be0bdcc7fab841d2a78161bd11b4db4ff8478a7ac2a
+    image: lscr.io/linuxserver/plex:latest@sha256:9a1325bf0b34a50993a04be0bdcc7fab841d2a78161bd11b4db4ff8478a7ac2a
     environment:
       - TZ=America/Chicago
       - PUID=1000
